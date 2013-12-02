@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * A ServiceLocator implementation and PHPUnit test.
+ * A ServiceLocator implementation and PHPUnit test; works in PHP 5.3 and up.
  *
  * @package Pmjones
  *
@@ -94,7 +94,7 @@ class ServiceLocator
 
         if (! isset($this->instances[$name])) {
             $callable = $this->factories[$name];
-            $this->instances[$name] = $callable();
+            $this->instances[$name] = call_user_func($callable);
         }
 
         return $this->instances[$name];
