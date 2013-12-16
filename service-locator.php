@@ -75,6 +75,18 @@ class ServiceLocator
 
     /**
      *
+     * Does the locator have a particular object name available?
+     *
+     * @return bool
+     *
+     */
+    public function has($name)
+    {
+        return isset($this->factories[$name]);
+    }
+
+    /**
+     *
      * Gets an object instance by name; if it has not been created yet, its
      * callable factory will be invoked and the instance will be retained.
      *
@@ -115,11 +127,15 @@ class ServiceLocatorTest extends \PHPUnit_Framework_TestCase
         $this->locator = new ServiceLocator;
     }
     
-    public function testSetAndGet()
+    public function testSetHasGet()
     {
+        $this->assertFalse($this->locator->has('mock'));
+        
         $this->locator->set('mock', function () {
             return new \StdClass;
         });
+        
+        $this->assertTrue($this->locator->has('mock'));
         
         $instance1 = $this->locator->get('mock');
         $this->assertInstanceOf('StdClass', $instance1);
